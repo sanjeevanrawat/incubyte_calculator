@@ -40,16 +40,8 @@ public class CalculatorTest {
 			fail("Exception expected");
 
 		}catch(RuntimeException ex){
+			assertEquals("negatives not allowed: -1" , ex.getMessage());
+		}
+	}
 
-		}
-	}
-	@Test
-	public void exceptionMessageForEveryNegativeNumber(){
-		try{
-			Calculator.add("-1,-2,3");
-			fail("Exception expected");
-		}catch(RuntimeException ex){
-			assertEquals("negatives not allowed: -1, -2" , ex.getMessage());
-		}
-	}
 }
