@@ -7,10 +7,15 @@ import static org.hamcrest.Matchers.*;
 import static ch.lambdaj.Lambda.*;
 import java.util.regex.*;
 public class Calculator {
+	static int count = 0;
 	public static int add(String text) {
+		count = count + 1;
 		List<Integer> numbers =  parseNumbersFromStringArray(text) ;
 		removeAllNegatives(numbers);
 		return sum(numbers).intValue();
+	}
+	public static int GetCalledCount(){
+		return count;
 	}
 	private static void removeAllNegatives(List<Integer> numbers) throws RuntimeException{
 		List<Integer> negatives = filter(lessThan(0), numbers);

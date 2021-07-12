@@ -43,5 +43,8 @@ public class CalculatorTest {
 			assertEquals("negatives not allowed: -1" , ex.getMessage());
 		}
 	}
-
+	@Test
+	public void getCount(){
+		assertEquals(8, Calculator.GetCalledCount());
+	}
 }
