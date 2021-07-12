@@ -3,12 +3,20 @@ package com.incubyte.calculator;
 import java.util.*;
 import ch.lambdaj.function.convert.Converter;
 import ch.lambdaj.*;
+import static org.hamcrest.Matchers.*;
 import static ch.lambdaj.Lambda.*;
 import java.util.regex.*;
 public class Calculator {
 	public static int add(String text) {
 		List<Integer> numbers =  parseNumbersFromStringArray(text) ;
+		removeAllNegatives(numbers);
 		return sum(numbers).intValue();
+	}
+	private static void removeAllNegatives(List<Integer> numbers) throws RuntimeException{
+		List<Integer> negatives = filter(lessThan(0), numbers);
+		if(negatives.size() > 0){
+			throw new RuntimeException("negatives not allowed: " + join(negatives));
+		}
 	}
 	private static List<Integer> parseNumbersFromStringArray(String text){
 		String[] tokens = getStringArray(text);

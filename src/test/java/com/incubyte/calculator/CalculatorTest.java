@@ -30,7 +30,26 @@ public class CalculatorTest {
 		assertEquals(3, Calculator.add("//;\n1;2"));
 	}
 	@Test
-	public void customDelimiterCouldAlsoBeARegExpSpecialChar(){
+	public void acceptRegExSpecialCharAsCustomDelimiter(){
 		assertEquals(3, Calculator.add("//.\n1.2"));
+	}
+	@Test
+	public void raiseExceptionOnNegativesNumbers(){
+		try{
+			Calculator.add("-1,2,3");
+			fail("Exception expected");
+
+		}catch(RuntimeException ex){
+
+		}
+	}
+	@Test
+	public void exceptionMessageForEveryNegativeNumber(){
+		try{
+			Calculator.add("-1,-2,3");
+			fail("Exception expected");
+		}catch(RuntimeException ex){
+			assertEquals("negatives not allowed: -1, -2" , ex.getMessage());
+		}
 	}
 }
