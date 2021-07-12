@@ -29,4 +29,8 @@ public class CalculatorTest {
 	public void acceptCustomDelimiterSyntax(){
 		assertEquals(3, Calculator.add("//;\n1;2"));
 	}
+	@Test
+	public void customDelimiterCouldAlsoBeARegExpSpecialChar(){
+		assertEquals(3, Calculator.add("//.\n1.2"));
+	}
 }
