@@ -4,23 +4,36 @@ import java.util.*;
 import ch.lambdaj.function.convert.Converter;
 import ch.lambdaj.*;
 import static ch.lambdaj.Lambda.*;
+import java.util.regex.*;
 public class Calculator {
 	public static int add(String text) {
-		List<Integer> numbers =  parseNumbers(text) ;
+		List<Integer> numbers =  parseNumbersFromStringArray(text) ;
 		return sum(numbers).intValue();
 	}
-	private static List<Integer> parseNumbers(String text){
-		String[] tokens = tokenize(text);
+	private static List<Integer> parseNumbersFromStringArray(String text){
+		String[] tokens = getStringArray(text);
 		List<Integer> numbers =  convert(tokens, toInt());
 		return numbers;
 	}
-	private static String[] tokenize(String text){
+	private static String[] getStringArray(String text){
 		if(text.isEmpty()){
 			return new String[0];
+		}else if(text.startsWith("//")){
+			return splitUsingCustomDelimiters((text));
 		}else{
-			String[] tokens = text.split(",");
-			return tokens;
+			return splitUsingNewLineAndCommas(text);
 		}
+	}
+	private static String[] splitUsingNewLineAndCommas(String text) {
+		String[] tokens = text.split(",|\n");
+		return tokens;
+	}
+	private static String[] splitUsingCustomDelimiters(String text){
+		Matcher m = Pattern.compile("//(.)\n(.*)").matcher(text);
+		m.matches();
+		String customDelimiter = m.group(1);
+		String numbers = m.group(2);
+		return numbers.split(Pattern.quote(customDelimiter));
 	}
 	private static Converter<String, Integer> toInt(){
 		return new Converter<String, Integer>(){

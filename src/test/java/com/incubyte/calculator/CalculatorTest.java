@@ -10,11 +10,23 @@ public class CalculatorTest {
 		assertEquals(0, Calculator.add(""));
 	}
 	@Test
-	public void shouldReturnNumberOnNumber(){
+	public void returnSingleNumberForSingleNumber(){
 		assertEquals(1, Calculator.add("1"));
 	}
 	@Test
-	public void shouldReturnSumOnTwoNumbersDelimitedByComma(){
+	public void returnSumForTwoNumbers(){
 		assertEquals(3, Calculator.add("1,2"));
+	}
+	@Test
+	public void returnSumForMultipleNumbers(){
+		assertEquals(6, Calculator.add("1,2,3"));
+	}
+	@Test
+	public void acceptNewLineAsValidDelimiter(){
+		assertEquals(6, Calculator.add("1,2\n3"));
+	}
+	@Test
+	public void acceptCustomDelimiterSyntax(){
+		assertEquals(3, Calculator.add("//;\n1;2"));
 	}
 }
