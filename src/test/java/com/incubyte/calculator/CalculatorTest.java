@@ -4,39 +4,43 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 public class CalculatorTest {
-
+	private static Calculator calculator;
+	@BeforeClass
+	public static void init(){
+		calculator = new Calculator();
+	}
 	@Test
 	public void test(){
-		assertEquals(0, Calculator.add(""));
+		assertEquals(0, calculator.add(""));
 	}
 	@Test
 	public void returnSingleNumberForSingleNumber(){
-		assertEquals(1, Calculator.add("1"));
+		assertEquals(1, calculator.add("1"));
 	}
 	@Test
 	public void returnSumForTwoNumbers(){
-		assertEquals(3, Calculator.add("1,2"));
+		assertEquals(3, calculator.add("1,2"));
 	}
 	@Test
 	public void returnSumForMultipleNumbers(){
-		assertEquals(6, Calculator.add("1,2,3"));
+		assertEquals(6, calculator.add("1,2,3"));
 	}
 	@Test
 	public void acceptNewLineAsValidDelimiter(){
-		assertEquals(6, Calculator.add("1,2\n3"));
+		assertEquals(6, calculator.add("1,2\n3"));
 	}
 	@Test
 	public void acceptCustomDelimiterSyntax(){
-		assertEquals(3, Calculator.add("//;\n1;2"));
+		assertEquals(3, calculator.add("//;\n1;2"));
 	}
 	@Test
 	public void acceptRegExSpecialCharAsCustomDelimiter(){
-		assertEquals(3, Calculator.add("//.\n1.2"));
+		assertEquals(3, calculator.add("//.\n1.2"));
 	}
 	@Test
 	public void raiseExceptionOnNegativesNumbers(){
 		try{
-			Calculator.add("-1,2,3");
+			calculator.add("-1,2,3");
 			fail("Exception expected");
 
 		}catch(RuntimeException ex){
@@ -44,7 +48,23 @@ public class CalculatorTest {
 		}
 	}
 	@Test
+	public void shouldIgnoreNumberGreaterThan1000(){
+		assertEquals(2, calculator.add("2,10001,2000"));
+	}
+	@Test
+	public void acceptCustomDelimiterOfAnyLength(){
+		assertEquals(6, calculator.add("//[***]\\n1***2***3"));
+	}
+	@Test
+	public void acceptMultipleCustomDelimiter(){
+		assertEquals(6, calculator.add("//[*][%]\\n1*2%3"));
+	}
+	@Test
+	public void acceptMultipleCustomDelimiterOfAnyLength() {
+		assertEquals(6, calculator.add("//[**][%%]\\n1**2%%3"));
+	}
+	@Test
 	public void getCount(){
-		assertEquals(8, Calculator.GetCalledCount());
+		assertEquals(12, calculator.getCount());
 	}
 }
